@@ -4422,13 +4422,6 @@
                                 <strong>Quick Order</strong>
                                 <small>Simple services</small>
                             </div>
-                        </a>
-                        <a href="#instagram" class="mega-menu-link" onclick="closeMegaMenu()">
-                            <span class="link-icon">📸</span>
-                            <div>
-                                <strong>Instagram</strong>
-                                <small>Latest updates</small>
-                            </div>
                         </a></li>
                         <li><a href="#" onclick="toggleCart(); toggleMainMenu()">
                             <span class="link-icon">🛒</span>
@@ -6632,40 +6625,49 @@
             }
         });
 
-        // ===== VISITOR TRACKING & EMAIL CAPTURE =====
+        // ===== VISITOR TRACKING & EMAIL CAPTURE (REAL-TIME WITH PHP BACKEND) =====
+        
+        // API Configuration
+        const API_URL = '/api.py'; // Python API endpoint
         
         // Initialize tracking data
         function initializeTracking() {
-            if (!localStorage.getItem('taclab_visitors')) {
-                localStorage.setItem('taclab_visitors', JSON.stringify([]));
-            }
-            if (!localStorage.getItem('taclab_emails')) {
-                localStorage.setItem('taclab_emails', JSON.stringify([]));
-            }
-            if (!localStorage.getItem('taclab_visitor_count')) {
-                localStorage.setItem('taclab_visitor_count', '0');
-            }
+            // Check PHP API health
+            fetch(`${API_URL}?action=health`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('✅ API Connected:', data.message);
+                })
+                .catch(error => {
+                    console.error('❌ API Connection Failed:', error);
+                    console.log('⚠️ Make sure api.php is in the same directory and PHP is running');
+                });
         }
 
-        // Track visitor
-        function trackVisitor() {
-            initializeTracking();
-            
-            const visitors = JSON.parse(localStorage.getItem('taclab_visitors') || '[]');
-            const visitorCount = parseInt(localStorage.getItem('taclab_visitor_count') || '0');
-            
-            const newVisitor = {
-                timestamp: new Date().toISOString(),
-                date: new Date().toLocaleString(),
-                id: 'V' + (visitorCount + 1)
-            };
-            
-            visitors.push(newVisitor);
-            localStorage.setItem('taclab_visitors', JSON.stringify(visitors));
-            localStorage.setItem('taclab_visitor_count', (visitorCount + 1).toString());
-            
-            // Update dashboard if open
-            updateDashboardStats();
+        // Track visitor (sends to PHP backend)
+        async function trackVisitor() {
+            try {
+                const response = await fetch(`${API_URL}?action=track_visitor`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    console.log('✅ Visitor tracked:', data.visitor_id);
+                    console.log('📊 Total visitors:', data.total_visitors);
+                    
+                    // Update dashboard if open
+                    updateDashboardStats();
+                } else {
+                    console.error('❌ Failed to track visitor');
+                }
+            } catch (error) {
+                console.error('❌ Error tracking visitor:', error);
+            }
         }
 
         // Show welcome popup on first visit
@@ -6695,8 +6697,8 @@
             }
         }
 
-        // Submit email and generate coupon
-        function submitEmail(event) {
+        // Submit email and generate coupon (sends to PHP backend)
+        async function submitEmail(event) {
             event.preventDefault();
             
             const email = document.getElementById('visitorEmail').value;
@@ -6706,35 +6708,49 @@
                 return false;
             }
             
-            // Save email to localStorage
-            const emails = JSON.parse(localStorage.getItem('taclab_emails') || '[]');
-            const couponCode = 'WELCOME20' + Math.random().toString(36).substr(2, 4).toUpperCase();
-            
-            const emailData = {
-                email: email,
-                timestamp: new Date().toISOString(),
-                date: new Date().toLocaleString(),
-                couponCode: couponCode,
-                used: false
-            };
-            
-            emails.push(emailData);
-            localStorage.setItem('taclab_emails', JSON.stringify(emails));
-            localStorage.setItem('taclab_user_email', email);
-            localStorage.setItem('taclab_user_coupon', couponCode);
-            
-            // Close welcome popup
-            closeWelcomePopup(true);
-            
-            // Show coupon modal
-            document.getElementById('couponCodeDisplay').textContent = couponCode;
-            document.getElementById('couponModal').style.display = 'flex';
-            
-            // Update dashboard
-            updateDashboardStats();
-            
-            // Confetti animation
-            createEmojiRain('🎉');
+            try {
+                const response = await fetch(`${API_URL}?action=submit_email`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email: email })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    const couponCode = data.coupon_code;
+                    
+                    // Save to localStorage for this user
+                    localStorage.setItem('taclab_user_email', email);
+                    localStorage.setItem('taclab_user_coupon', couponCode);
+                    
+                    // Close welcome popup
+                    closeWelcomePopup(true);
+                    
+                    // Show coupon modal
+                    document.getElementById('couponCodeDisplay').textContent = couponCode;
+                    document.getElementById('couponModal').style.display = 'flex';
+                    
+                    // Update dashboard
+                    updateDashboardStats();
+                    
+                    // Confetti animation
+                    createEmojiRain('🎉');
+                    
+                    if (data.already_registered) {
+                        console.log('ℹ️ Email already registered, showing existing coupon');
+                    } else {
+                        console.log('✅ New email registered:', email);
+                    }
+                } else {
+                    alert('❌ ' + data.message);
+                }
+            } catch (error) {
+                console.error('❌ Error submitting email:', error);
+                alert('Failed to submit email. Please try again.');
+            }
             
             return false;
         }
@@ -6768,50 +6784,89 @@
             }, 2000);
         }
 
-        // Update dashboard stats in real-time
-        function updateDashboardStats() {
-            const visitorCount = parseInt(localStorage.getItem('taclab_visitor_count') || '0');
-            const emails = JSON.parse(localStorage.getItem('taclab_emails') || '[]');
-            
-            // Update stats
-            document.getElementById('totalVisitors').textContent = visitorCount.toLocaleString();
-            document.getElementById('totalEmails').textContent = emails.length.toLocaleString();
-            document.getElementById('totalCoupons').textContent = emails.length.toLocaleString();
-            
-            // Update email list
-            updateEmailList();
+        // Update dashboard stats in real-time (fetches from PHP backend)
+        async function updateDashboardStats() {
+            try {
+                const response = await fetch(`${API_URL}?action=get_stats`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    const stats = data.stats;
+                    
+                    // Update stat cards
+                    document.getElementById('totalVisitors').textContent = stats.total_visitors.toLocaleString();
+                    document.getElementById('totalEmails').textContent = stats.total_emails.toLocaleString();
+                    document.getElementById('totalCoupons').textContent = stats.total_coupons.toLocaleString();
+                    
+                    // Update visitor chart with real data
+                    updateVisitorChart(data.daily_visitors);
+                    
+                    // Update email list
+                    updateEmailList();
+                    
+                    console.log('📊 Dashboard updated:', stats);
+                }
+            } catch (error) {
+                console.error('❌ Error updating dashboard:', error);
+            }
         }
 
-        // Update email subscribers list in dashboard
-        function updateEmailList() {
-            const emails = JSON.parse(localStorage.getItem('taclab_emails') || '[]');
-            const emailListContainer = document.getElementById('emailSubscribersList');
+        // Update visitor chart with real data
+        function updateVisitorChart(dailyVisitors) {
+            if (!dailyVisitors || dailyVisitors.length === 0) return;
             
-            if (emails.length === 0) {
-                emailListContainer.innerHTML = `
-                    <div class="no-data">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
-                        <p>No subscribers yet</p>
-                        <small style="color: var(--text-secondary);">Email addresses will appear here in real-time</small>
-                    </div>
-                `;
-                return;
+            const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            const maxVisitors = Math.max(...dailyVisitors, 1);
+            
+            const chartHTML = dailyVisitors.map((count, index) => {
+                const height = (count / maxVisitors) * 100;
+                return `<div class="bar" style="height: ${height}%"><span>${days[index]}<br>${count}</span></div>`;
+            }).join('');
+            
+            const chartContainer = document.querySelector('.bar-chart');
+            if (chartContainer) {
+                chartContainer.innerHTML = chartHTML;
             }
-            
-            // Sort by most recent first
-            emails.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-            
-            emailListContainer.innerHTML = emails.map(item => `
-                <div class="email-item">
-                    <div class="email-info">
-                        <div class="email-address">📧 ${item.email}</div>
-                        <div class="email-date">🕒 ${item.date}</div>
-                    </div>
-                    <div class="email-coupon-badge">
-                        🎟️ ${item.couponCode}
-                    </div>
-                </div>
-            `).join('');
+        }
+
+        // Update email subscribers list in dashboard (fetches from PHP backend)
+        async function updateEmailList() {
+            try {
+                const response = await fetch(`${API_URL}?action=get_emails`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    const emails = data.emails;
+                    const emailListContainer = document.getElementById('emailSubscribersList');
+                    
+                    if (!emailListContainer) return;
+                    
+                    if (emails.length === 0) {
+                        emailListContainer.innerHTML = `
+                            <div class="no-data">
+                                <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
+                                <p>No subscribers yet</p>
+                                <small style="color: var(--text-secondary);">Email addresses will appear here in real-time</small>
+                            </div>
+                        `;
+                        return;
+                    }
+                    
+                    emailListContainer.innerHTML = emails.map(item => `
+                        <div class="email-item">
+                            <div class="email-info">
+                                <div class="email-address">📧 ${item.email}</div>
+                                <div class="email-date">🕒 ${item.date}</div>
+                            </div>
+                            <div class="email-coupon-badge">
+                                🎟️ ${item.coupon_code}
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            } catch (error) {
+                console.error('❌ Error updating email list:', error);
+            }
         }
 
         // Initialize on page load
@@ -6870,44 +6925,26 @@
 
         <!-- Instagram Embed Widget -->
         <div class="embed-container">
+            <!-- LIVE INSTAGRAM FEED -->
+            <!-- Option 1: Use Elfsight (Free & Easy) -->
+            <script src="https://static.elfsight.com/platform/platform.js" data-use-service-core defer></script>
+            <div class="elfsight-app-c7f93b0e-f3b5-4a3a-af86-86df82c7b2ee" data-elfsight-app-lazy></div>
+            
             <!-- 
-            TO SET UP YOUR INSTAGRAM FEED:
+            TO SHOW YOUR ACTUAL INSTAGRAM POSTS:
+            1. Go to: https://elfsight.com/instagram-feed-instashow/
+            2. Click "Add to Website for Free"
+            3. Create free account
+            4. Connect your Instagram (@mytaclab)
+            5. Customize the appearance
+            6. Copy the embed code
+            7. Replace the div above with your code
             
-            Option 1 - EmbedSocial (Easiest, Recommended):
-            1. Go to: https://embedsocial.com/products/embedfeed/
-            2. Sign up for free account
-            3. Connect your Instagram
-            4. Generate embed code
-            5. Replace this comment with the code
-            
-            Option 2 - SnapWidget (Simple):
+            OR Use SnapWidget (Alternative):
             1. Go to: https://snapwidget.com/
-            2. Click "Create Widget"
-            3. Choose "Grid" layout
-            4. Enter your Instagram username
-            5. Copy and paste the code here
-            
-            Option 3 - Juicer.io:
-            1. Go to: https://www.juicer.io/
-            2. Create free account
-            3. Add your Instagram account
-            4. Get embed code
-            5. Paste it here
-            
-            Example with SnapWidget:
-            <iframe src="https://snapwidget.com/embed/YOUR_WIDGET_ID" 
-                    class="snapwidget-widget" 
-                    allowtransparency="true" 
-                    frameborder="0" 
-                    scrolling="no" 
-                    style="border:none; overflow:hidden; width:100%; height:600px;">
-            </iframe>
+            2. Create free widget for @mytaclab
+            3. Replace the code above
             -->
-            
-            <!-- Placeholder Instagram Grid -->
-            <div class="instagram-grid" id="instagramGrid">
-                <!-- These are placeholder posts - replace with actual Instagram embed -->
-            </div>
         </div>
     </section>
 

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test - TACLAB</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        h1 {
+            color: #6c5ce7;
+        }
+        .test-section {
+            background: #2a2a2a;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border: 2px solid #6c5ce7;
+        }
+        button {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(108, 92, 231, 0.4);
+        }
+        .result {
+            background: #000;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+        }
+        .success {
+            color: #4cd137;
+        }
+        .error {
+            color: #ff6b6b;
+        }
+        input {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #6c5ce7;
+            background: #1a1a1a;
+            color: #fff;
+            width: 300px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 TACLAB API Test Page</h1>
+    <p>Use this page to test your real-time tracking API</p>
+
+    <div class="test-section">
+        <h2>1. Check API Health</h2>
+        <button onclick="testHealth()">Test API Connection</button>
+        <div id="healthResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Track a Visitor</h2>
+        <button onclick="testTrackVisitor()">Track Visitor</button>
+        <div id="visitorResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Submit Email</h2>
+        <input type="email" id="testEmail" placeholder="Enter test email">
+        <button onclick="testSubmitEmail()">Submit Email</button>
+        <div id="emailResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>4. Get Statistics</h2>
+        <button onclick="testGetStats()">Get Stats</button>
+        <div id="statsResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>5. Get Email List</h2>
+        <button onclick="testGetEmails()">Get Emails</button>
+        <div id="emailsListResult" class="result"></div>
+    </div>
+
+    <script>
+        const API_URL = '/api.py';
+
+        function displayResult(elementId, data, success = true) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = JSON.stringify(data, null, 2);
+            element.className = 'result ' + (success ? 'success' : 'error');
+        }
+
+        async function testHealth() {
+            try {
+                const response = await fetch(`${API_URL}?action=health`);
+                const data = await response.json();
+                displayResult('healthResult', data, data.success);
+            } catch (error) {
+                displayResult('healthResult', { error: error.message }, false);
+            }
+        }
+
+        async function testTrackVisitor() {
+            try {
+                const response = await fetch(`${API_URL}?action=track_visitor`, {
+                    method: 'POST'
+                });
+                const data = await response.json();
+                displayResult('visitorResult', data, data.success);
+            } catch (error) {
+                displayResult('visitorResult', { error: error.message }, false);
+            }
+        }
+
+        async function testSubmitEmail() {
+            const email = document.getElementById('testEmail').value;
+            if (!email) {
+                alert('Please enter an email address');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}?action=submit_email`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email })
+                });
+                const data = await response.json();
+                displayResult('emailResult', data, data.success);
+            } catch (error) {
+                displayResult('emailResult', { error: error.message }, false);
+            }
+        }
+
+        async function testGetStats() {
+            try {
+                const response = await fetch(`${API_URL}?action=get_stats`);
+                const data = await response.json();
+                displayResult('statsResult', data, data.success);
+            } catch (error) {
+                displayResult('statsResult', { error: error.message }, false);
+            }
+        }
+
+        async function testGetEmails() {
+            try {
+                const response = await fetch(`${API_URL}?action=get_emails`);
+                const data = await response.json();
+                displayResult('emailsListResult', data, data.success);
+            } catch (error) {
+                displayResult('emailsListResult', { error: error.message }, false);
+            }
+        }
+
+        // Auto-run health check on page load
+        window.addEventListener('load', () => {
+            testHealth();
+        });
+    </script>
+</body>
+</html>
+
