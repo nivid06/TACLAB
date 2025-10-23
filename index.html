@@ -1474,7 +1474,7 @@
         .filters-sidebar {
             background: var(--card-bg);
             border-radius: 15px;
-            padding: 1.25rem;
+            padding: 0;
             max-height: calc(100vh - 100px);
             overflow-y: auto;
             overflow-x: hidden;
@@ -1485,6 +1485,10 @@
             transition: all 0.3s ease;
             scroll-behavior: smooth;
             scrollbar-gutter: stable;
+        }
+
+        .filters-sidebar-inner {
+            padding: 1.25rem;
         }
 
         /* Custom scrollbar for filters sidebar */
@@ -1507,46 +1511,51 @@
         }
 
         /* Scroll indicator shadows */
-        .filters-sidebar::before,
-        .filters-sidebar::after {
+        .filters-sidebar-inner::before,
+        .filters-sidebar-inner::after {
             content: '';
+            display: block;
             position: sticky;
             left: 0;
             right: 0;
-            height: 30px;
+            height: 20px;
             pointer-events: none;
             z-index: 5;
+            margin: 0 -1.25rem;
         }
 
-        .filters-sidebar::before {
-            top: 80px;
-            background: linear-gradient(to bottom, var(--card-bg), transparent);
+        .filters-sidebar-inner::before {
+            top: 0;
+            background: linear-gradient(to bottom, var(--card-bg) 0%, transparent 100%);
+            margin-bottom: -20px;
         }
 
-        .filters-sidebar::after {
+        .filters-sidebar-inner::after {
             bottom: 0;
-            background: linear-gradient(to top, var(--card-bg), transparent);
-            position: sticky;
-            margin-top: -30px;
+            background: linear-gradient(to top, var(--card-bg) 0%, transparent 100%);
+            margin-top: -20px;
         }
 
         .filters-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.25rem;
-            padding-bottom: 0.75rem;
+            padding: 1.25rem;
+            padding-bottom: 1rem;
             border-bottom: 2px solid rgba(108, 92, 231, 0.2);
             position: sticky;
             top: 0;
             background: var(--card-bg);
             z-index: 10;
-            margin-left: -1.25rem;
-            margin-right: -1.25rem;
-            margin-top: -1.25rem;
-            padding-left: 1.25rem;
-            padding-right: 1.25rem;
-            padding-top: 1.25rem;
+            border-radius: 15px 15px 0 0;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+
+        /* Add shadow when scrolled */
+        .filters-sidebar.scrolled .filters-header {
+            box-shadow: 0 4px 20px rgba(108, 92, 231, 0.3);
         }
 
         .filters-header h3 {
@@ -1807,6 +1816,322 @@
         .results-count {
             color: var(--text-secondary);
             font-size: 0.85rem;
+        }
+
+        /* ===== DASHBOARD STYLES ===== */
+        .dashboard-section {
+            padding: 4rem 2rem;
+            background: var(--bg);
+            min-height: 100vh;
+        }
+
+        .dashboard-login {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 60vh;
+        }
+
+        .login-box {
+            background: var(--card-bg);
+            padding: 3rem;
+            border-radius: 20px;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(108, 92, 231, 0.2);
+        }
+
+        .login-box h2 {
+            text-align: center;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            border: 2px solid rgba(108, 92, 231, 0.2);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(108, 92, 231, 0.3);
+        }
+
+        .stat-icon {
+            font-size: 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-info h3 {
+            font-size: 2rem;
+            margin: 0;
+            color: var(--text);
+        }
+
+        .stat-info p {
+            margin: 0.5rem 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .stat-trend {
+            font-size: 0.85rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+
+        .stat-trend.up {
+            background: rgba(76, 209, 55, 0.2);
+            color: #4cd137;
+        }
+
+        .dashboard-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .dashboard-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 2px solid rgba(108, 92, 231, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard-card h3 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+        }
+
+        /* Bar Chart */
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            height: 250px;
+            gap: 1rem;
+        }
+
+        .bar {
+            flex: 1;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            border-radius: 8px 8px 0 0;
+            position: relative;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 0.5rem;
+        }
+
+        .bar:hover {
+            opacity: 0.8;
+            transform: scaleY(1.05);
+        }
+
+        .bar span {
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* Top Products */
+        .top-products {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .product-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(108, 92, 231, 0.05);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .product-item:hover {
+            background: rgba(108, 92, 231, 0.15);
+            transform: translateX(5px);
+        }
+
+        .product-item .rank {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .product-item .product-name {
+            flex: 1;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .product-item .product-sales {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Orders Table */
+        .orders-table {
+            overflow-x: auto;
+        }
+
+        .orders-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .orders-table th,
+        .orders-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(108, 92, 231, 0.1);
+        }
+
+        .orders-table th {
+            background: rgba(108, 92, 231, 0.1);
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .orders-table td {
+            color: var(--text);
+        }
+
+        .orders-table tr:hover {
+            background: rgba(108, 92, 231, 0.05);
+        }
+
+        .status-badge {
+            padding: 0.35rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-badge.completed {
+            background: rgba(76, 209, 55, 0.2);
+            color: #4cd137;
+        }
+
+        .status-badge.processing {
+            background: rgba(255, 159, 67, 0.2);
+            color: #ffa502;
+        }
+
+        .status-badge.pending {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .action-btn {
+            padding: 1rem;
+            background: rgba(108, 92, 231, 0.1);
+            border: 2px solid rgba(108, 92, 231, 0.3);
+            border-radius: 10px;
+            color: var(--text);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .action-btn:hover {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(108, 92, 231, 0.4);
+        }
+
+        .action-btn span {
+            font-size: 1.2rem;
+        }
+
+        /* Traffic Sources */
+        .traffic-sources {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .source-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .source-item span:first-child {
+            width: 100px;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 10px;
+            background: rgba(108, 92, 231, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .source-item span:last-child {
+            width: 50px;
+            text-align: right;
+            color: var(--text-secondary);
+            font-weight: 600;
         }
 
         /* ===== INSTAGRAM FEED SECTION ===== */
@@ -2781,6 +3106,53 @@
             .printer-animation-loader {
                 width: 60px;
                 height: 60px;
+            }
+
+            /* Dashboard Mobile */
+            .dashboard-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-row {
+                grid-template-columns: 1fr;
+            }
+
+            .login-box {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+            }
+
+            .stat-card {
+                padding: 1.5rem;
+            }
+
+            .stat-icon {
+                font-size: 2.5rem;
+            }
+
+            .stat-info h3 {
+                font-size: 1.5rem;
+            }
+
+            .bar-chart {
+                height: 180px;
+            }
+
+            .dashboard-card {
+                padding: 1.5rem;
+            }
+
+            .orders-table {
+                font-size: 0.85rem;
+            }
+
+            .orders-table th,
+            .orders-table td {
+                padding: 0.75rem 0.5rem;
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -3759,6 +4131,13 @@
                                 <small>Material comparison</small>
                             </div>
                         </a></li>
+                        <li><a href="javascript:void(0)" onclick="showSection('dashboard')">
+                            <span class="link-icon">📊</span>
+                            <div>
+                                <strong>Admin Dashboard</strong>
+                                <small>Analytics & Stats</small>
+                            </div>
+                        </a></li>
                         <li><a href="#contact" onclick="toggleMainMenu()">
                             <span class="link-icon">📞</span>
                             <div>
@@ -4139,6 +4518,253 @@
         </div>
     </section>
 
+    <!-- Dashboard Section -->
+    <section class="dashboard-section page-section" id="dashboard" style="display: none;">
+        <div class="container">
+            <!-- Dashboard Login -->
+            <div id="dashboardLogin" class="dashboard-login">
+                <div class="login-box">
+                    <h2>🔐 Admin Dashboard Login</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: 2rem;">Access your analytics and statistics</p>
+                    <form id="adminLoginForm" onsubmit="return loginAdmin(event)">
+                        <div class="input-group">
+                            <label>👤 Username</label>
+                            <input type="text" id="adminUsername" required placeholder="Enter username">
+                        </div>
+                        <div class="input-group">
+                            <label>🔑 Password</label>
+                            <input type="password" id="adminPassword" required placeholder="Enter password">
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                            Login to Dashboard
+                        </button>
+                        <p style="text-align: center; margin-top: 1rem; font-size: 0.85rem; color: var(--text-secondary);">
+                            Demo: username: <strong>admin</strong> | password: <strong>admin</strong>
+                        </p>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Dashboard Content -->
+            <div id="dashboardContent" class="dashboard-content" style="display: none;">
+                <div style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <button onclick="showSection('home')" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                            ← Back to Home
+                        </button>
+                    </div>
+                    <div>
+                        <h2 style="margin: 0;">📊 Admin Dashboard</h2>
+                    </div>
+                    <div>
+                        <button onclick="logoutAdmin()" class="btn btn-secondary">Logout</button>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-info">
+                            <h3 id="totalVisitors">12,547</h3>
+                            <p>Total Visitors</p>
+                            <span class="stat-trend up">+12.5% this month</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🛒</div>
+                        <div class="stat-info">
+                            <h3 id="totalOrders">386</h3>
+                            <p>Total Orders</p>
+                            <span class="stat-trend up">+8.2% this month</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-info">
+                            <h3 id="totalRevenue">₹4,89,230</h3>
+                            <p>Total Revenue</p>
+                            <span class="stat-trend up">+15.3% this month</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⭐</div>
+                        <div class="stat-info">
+                            <h3 id="avgRating">4.8</h3>
+                            <p>Average Rating</p>
+                            <span class="stat-trend up">+0.3 this month</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="dashboard-row">
+                    <div class="dashboard-card">
+                        <h3>📈 Visitor Analytics (Last 7 Days)</h3>
+                        <div class="chart">
+                            <div class="bar-chart">
+                                <div class="bar" style="height: 60%"><span>Mon<br>230</span></div>
+                                <div class="bar" style="height: 75%"><span>Tue<br>290</span></div>
+                                <div class="bar" style="height: 85%"><span>Wed<br>325</span></div>
+                                <div class="bar" style="height: 70%"><span>Thu<br>270</span></div>
+                                <div class="bar" style="height: 90%"><span>Fri<br>350</span></div>
+                                <div class="bar" style="height: 100%"><span>Sat<br>385</span></div>
+                                <div class="bar" style="height: 95%"><span>Sun<br>370</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <h3>🎯 Top Products</h3>
+                        <div class="top-products">
+                            <div class="product-item">
+                                <span class="rank">1</span>
+                                <span class="product-name">Rapid Prototyping</span>
+                                <span class="product-sales">142 sales</span>
+                            </div>
+                            <div class="product-item">
+                                <span class="rank">2</span>
+                                <span class="product-name">Custom Design</span>
+                                <span class="product-sales">98 sales</span>
+                            </div>
+                            <div class="product-item">
+                                <span class="rank">3</span>
+                                <span class="product-name">Production Runs</span>
+                                <span class="product-sales">76 sales</span>
+                            </div>
+                            <div class="product-item">
+                                <span class="rank">4</span>
+                                <span class="product-name">Artistic Prints</span>
+                                <span class="product-sales">45 sales</span>
+                            </div>
+                            <div class="product-item">
+                                <span class="rank">5</span>
+                                <span class="product-name">Industrial Parts</span>
+                                <span class="product-sales">25 sales</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Orders -->
+                <div class="dashboard-card">
+                    <h3>📦 Recent Orders</h3>
+                    <div class="orders-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Product</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#TL12847</td>
+                                    <td>Raj Kumar</td>
+                                    <td>Rapid Prototyping</td>
+                                    <td>₹3,999</td>
+                                    <td><span class="status-badge completed">Completed</span></td>
+                                    <td>Oct 23, 2024</td>
+                                </tr>
+                                <tr>
+                                    <td>#TL12846</td>
+                                    <td>Priya Singh</td>
+                                    <td>Custom Design</td>
+                                    <td>₹15,999</td>
+                                    <td><span class="status-badge processing">Processing</span></td>
+                                    <td>Oct 23, 2024</td>
+                                </tr>
+                                <tr>
+                                    <td>#TL12845</td>
+                                    <td>Amit Patel</td>
+                                    <td>Artistic Prints</td>
+                                    <td>₹6,499</td>
+                                    <td><span class="status-badge pending">Pending</span></td>
+                                    <td>Oct 22, 2024</td>
+                                </tr>
+                                <tr>
+                                    <td>#TL12844</td>
+                                    <td>Neha Sharma</td>
+                                    <td>Production Runs</td>
+                                    <td>₹23,999</td>
+                                    <td><span class="status-badge completed">Completed</span></td>
+                                    <td>Oct 22, 2024</td>
+                                </tr>
+                                <tr>
+                                    <td>#TL12843</td>
+                                    <td>Vikram Desai</td>
+                                    <td>Industrial Parts</td>
+                                    <td>₹4,999</td>
+                                    <td><span class="status-badge processing">Processing</span></td>
+                                    <td>Oct 21, 2024</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="dashboard-row">
+                    <div class="dashboard-card">
+                        <h3>⚡ Quick Actions</h3>
+                        <div class="quick-actions">
+                            <button class="action-btn" onclick="alert('Feature coming soon!')">
+                                <span>📝</span> Add New Product
+                            </button>
+                            <button class="action-btn" onclick="alert('Feature coming soon!')">
+                                <span>📧</span> Email Customers
+                            </button>
+                            <button class="action-btn" onclick="alert('Feature coming soon!')">
+                                <span>📊</span> Generate Report
+                            </button>
+                            <button class="action-btn" onclick="alert('Feature coming soon!')">
+                                <span>⚙️</span> Settings
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <h3>🌍 Traffic Sources</h3>
+                        <div class="traffic-sources">
+                            <div class="source-item">
+                                <span>Direct</span>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: 45%"></div>
+                                </div>
+                                <span>45%</span>
+                            </div>
+                            <div class="source-item">
+                                <span>Social Media</span>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: 30%"></div>
+                                </div>
+                                <span>30%</span>
+                            </div>
+                            <div class="source-item">
+                                <span>Search</span>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: 15%"></div>
+                                </div>
+                                <span>15%</span>
+                            </div>
+                            <div class="source-item">
+                                <span>Referral</span>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: 10%"></div>
+                                </div>
+                                <span>10%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Products Section -->
     <section class="products" id="products">
         <div class="container">
@@ -4152,8 +4778,9 @@
                         <button class="close-filters" onclick="toggleFilters()">×</button>
                     </div>
 
-                    <!-- Search Filter -->
-                    <div class="filter-group">
+                    <div class="filters-sidebar-inner">
+                        <!-- Search Filter -->
+                        <div class="filter-group">
                         <label class="filter-label">🔎 Search Products</label>
                         <input type="text" id="searchInput" class="filter-input" placeholder="Search by name..." oninput="applyFilters()">
                     </div>
@@ -4250,10 +4877,11 @@
                         </label>
                     </div>
 
-                    <!-- Reset Button -->
-                    <button class="btn-reset-filters" onclick="resetFilters()">
-                        🔄 Reset All Filters
-                    </button>
+                        <!-- Reset Button -->
+                        <button class="btn-reset-filters" onclick="resetFilters()">
+                            🔄 Reset All Filters
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Products Content -->
@@ -5271,6 +5899,20 @@
             sidebar.classList.toggle('active');
         }
 
+        // Add scroll shadow effect to filter header
+        document.addEventListener('DOMContentLoaded', function() {
+            const filtersSidebar = document.getElementById('filtersSidebar');
+            if (filtersSidebar) {
+                filtersSidebar.addEventListener('scroll', function() {
+                    if (this.scrollTop > 10) {
+                        this.classList.add('scrolled');
+                    } else {
+                        this.classList.remove('scrolled');
+                    }
+                });
+            }
+        });
+
         function updatePriceDisplay() {
             const priceRange = document.getElementById('priceRange');
             const priceDisplay = document.getElementById('priceDisplay');
@@ -5561,20 +6203,24 @@
 
         // ===== PAGE NAVIGATION =====
         function showSection(sectionId) {
-            // Hide calculator section
+            // Hide special sections
             const calculatorSection = document.getElementById('calculator');
+            const dashboardSection = document.getElementById('dashboard');
+            
             if (calculatorSection) {
                 calculatorSection.style.display = 'none';
+            }
+            if (dashboardSection) {
+                dashboardSection.style.display = 'none';
             }
 
             // Show requested section
             const targetSection = document.getElementById(sectionId);
             if (targetSection) {
-                if (sectionId === 'calculator') {
+                if (sectionId === 'calculator' || sectionId === 'dashboard') {
                     targetSection.style.display = 'block';
                     targetSection.scrollIntoView({ behavior: 'smooth' });
                 } else {
-                    calculatorSection.style.display = 'none';
                     targetSection.scrollIntoView({ behavior: 'smooth' });
                 }
             }
@@ -5585,6 +6231,67 @@
                 toggleMainMenu();
             }
         }
+
+        // ===== DASHBOARD LOGIN/LOGOUT =====
+        function loginAdmin(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('adminUsername').value;
+            const password = document.getElementById('adminPassword').value;
+            
+            // Simple authentication (in production, use proper backend authentication)
+            if (username === 'admin' && password === 'admin') {
+                document.getElementById('dashboardLogin').style.display = 'none';
+                document.getElementById('dashboardContent').style.display = 'block';
+                
+                // Save login state
+                sessionStorage.setItem('adminLoggedIn', 'true');
+                
+                // Show success message
+                createEmojiRain('🎉');
+                
+                // Scroll to top of dashboard
+                document.getElementById('dashboard').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                alert('❌ Invalid credentials! Please try again.\n\nDemo credentials:\nUsername: admin\nPassword: admin');
+            }
+            
+            return false;
+        }
+
+        function logoutAdmin() {
+            // Clear login state
+            sessionStorage.removeItem('adminLoggedIn');
+            
+            // Hide dashboard content and show login
+            document.getElementById('dashboardContent').style.display = 'none';
+            document.getElementById('dashboardLogin').style.display = 'flex';
+            
+            // Clear form
+            document.getElementById('adminLoginForm').reset();
+            
+            // Show message
+            alert('✅ Logged out successfully!');
+            
+            // Go back to home
+            showSection('home');
+        }
+
+        // Check if already logged in when dashboard is accessed
+        document.addEventListener('DOMContentLoaded', function() {
+            const dashboardSection = document.getElementById('dashboard');
+            if (dashboardSection) {
+                dashboardSection.addEventListener('transitionend', function() {
+                    if (this.style.display !== 'none') {
+                        const isLoggedIn = sessionStorage.getItem('adminLoggedIn');
+                        if (isLoggedIn === 'true') {
+                            document.getElementById('dashboardLogin').style.display = 'none';
+                            document.getElementById('dashboardContent').style.display = 'block';
+                        }
+                    }
+                });
+            }
+        });
 
         console.log('🚀 TACLAB - All features loaded!');
         console.log('📱 Mobile responsive design active!');
