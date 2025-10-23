@@ -1818,6 +1818,192 @@
             font-size: 0.85rem;
         }
 
+        /* ===== WELCOME POPUP STYLES ===== */
+        .welcome-popup-overlay,
+        .coupon-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 10005;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .welcome-popup,
+        .coupon-modal {
+            background: var(--card-bg);
+            padding: 3rem;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 20px 80px rgba(108, 92, 231, 0.5);
+            border: 2px solid rgba(108, 92, 231, 0.3);
+            animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            text-align: center;
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 107, 107, 0.1);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            color: #ff6b6b;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .popup-close:hover {
+            background: #ff6b6b;
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        .popup-icon,
+        .coupon-success-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: bounce 1s infinite;
+        }
+
+        .welcome-popup h2,
+        .coupon-modal h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .popup-subtitle {
+            font-size: 1.2rem;
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+
+        .popup-subtitle strong {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .popup-description {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .popup-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .popup-input-group input {
+            padding: 1rem;
+            border: 2px solid rgba(108, 92, 231, 0.3);
+            border-radius: 12px;
+            background: var(--bg-secondary);
+            color: var(--text);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .popup-input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(108, 92, 231, 0.3);
+        }
+
+        .popup-input-group .btn {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+        }
+
+        .btn-skip {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 0.75rem;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .btn-skip:hover {
+            background: rgba(108, 92, 231, 0.1);
+            color: var(--text);
+        }
+
+        .popup-privacy {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            margin-bottom: 0;
+        }
+
+        /* Coupon Code Styles */
+        .coupon-code-box {
+            background: rgba(108, 92, 231, 0.1);
+            border: 2px dashed var(--primary);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .coupon-code {
+            font-size: 2rem;
+            font-weight: bold;
+            letter-spacing: 0.2rem;
+            color: var(--primary);
+            font-family: 'Courier New', monospace;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px rgba(108, 92, 231, 0.5);
+        }
+
+        .btn-copy-coupon {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-copy-coupon:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(108, 92, 231, 0.4);
+        }
+
+        .coupon-details {
+            text-align: left;
+            background: rgba(108, 92, 231, 0.05);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .coupon-details p {
+            margin: 0.5rem 0;
+            color: var(--text);
+        }
+
         /* ===== DASHBOARD STYLES ===== */
         .dashboard-section {
             padding: 4rem 2rem;
@@ -2132,6 +2318,72 @@
             text-align: right;
             color: var(--text-secondary);
             font-weight: 600;
+        }
+
+        /* Email Subscribers List */
+        .email-subscribers-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .email-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            background: rgba(108, 92, 231, 0.05);
+            border-radius: 10px;
+            margin-bottom: 0.75rem;
+            transition: all 0.3s ease;
+            animation: slideInRight 0.5s ease;
+        }
+
+        .email-item:hover {
+            background: rgba(108, 92, 231, 0.15);
+            transform: translateX(5px);
+        }
+
+        .email-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .email-address {
+            color: var(--text);
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .email-date {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .email-coupon-badge {
+            background: linear-gradient(135deg, #4cd137, #44bd32);
+            color: white;
+            padding: 0.35rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-secondary);
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         /* ===== INSTAGRAM FEED SECTION ===== */
@@ -3154,6 +3406,28 @@
             .quick-actions {
                 grid-template-columns: 1fr;
             }
+
+            /* Welcome Popup Mobile */
+            .welcome-popup,
+            .coupon-modal {
+                padding: 2rem 1.5rem;
+                width: 95%;
+            }
+
+            .welcome-popup h2,
+            .coupon-modal h2 {
+                font-size: 1.5rem;
+            }
+
+            .popup-icon,
+            .coupon-success-icon {
+                font-size: 3rem;
+            }
+
+            .coupon-code {
+                font-size: 1.5rem;
+                letter-spacing: 0.1rem;
+            }
         }
 
         /* Hamburger Menu */
@@ -3735,6 +4009,59 @@
             <div class="loading-bar">
                 <div class="loading-progress"></div>
             </div>
+        </div>
+    </div>
+
+    <!-- Welcome Email Popup -->
+    <div class="welcome-popup-overlay" id="welcomePopup" style="display: none;">
+        <div class="welcome-popup">
+            <button class="popup-close" onclick="closeWelcomePopup(false)">✕</button>
+            <div class="popup-icon">🎉</div>
+            <h2>Welcome to TACLAB!</h2>
+            <p class="popup-subtitle">Get <strong>20% OFF</strong> on your first order!</p>
+            <p class="popup-description">Join our community and receive exclusive deals, updates, and a special discount coupon.</p>
+            
+            <form id="emailCaptureForm" onsubmit="return submitEmail(event)">
+                <div class="popup-input-group">
+                    <input type="email" id="visitorEmail" placeholder="Enter your email address" required>
+                    <button type="submit" class="btn btn-primary">
+                        Get 20% OFF 🎁
+                    </button>
+                </div>
+            </form>
+            
+            <button class="btn-skip" onclick="closeWelcomePopup(false)">
+                Maybe later
+            </button>
+            
+            <p class="popup-privacy">We respect your privacy. No spam, ever.</p>
+        </div>
+    </div>
+
+    <!-- Coupon Display Modal -->
+    <div class="coupon-modal-overlay" id="couponModal" style="display: none;">
+        <div class="coupon-modal">
+            <button class="popup-close" onclick="closeCouponModal()">✕</button>
+            <div class="coupon-success-icon">🎊</div>
+            <h2>Thank You!</h2>
+            <p style="margin-bottom: 2rem; color: var(--text-secondary);">Here's your exclusive discount code:</p>
+            
+            <div class="coupon-code-box">
+                <div class="coupon-code" id="couponCodeDisplay">WELCOME20</div>
+                <button class="btn-copy-coupon" onclick="copyCouponCode()">
+                    📋 Copy Code
+                </button>
+            </div>
+            
+            <div class="coupon-details">
+                <p>✅ <strong>20% OFF</strong> on your first order</p>
+                <p>✅ Valid for 30 days</p>
+                <p>✅ Can be used on any product</p>
+            </div>
+            
+            <button class="btn btn-primary" onclick="closeCouponModal()" style="width: 100%; margin-top: 1rem;">
+                Start Shopping 🛍️
+            </button>
         </div>
     </div>
 
@@ -4566,17 +4893,25 @@
                     <div class="stat-card">
                         <div class="stat-icon">👥</div>
                         <div class="stat-info">
-                            <h3 id="totalVisitors">12,547</h3>
+                            <h3 id="totalVisitors">0</h3>
                             <p>Total Visitors</p>
-                            <span class="stat-trend up">+12.5% this month</span>
+                            <span class="stat-trend up" id="visitorTrend">Real-time</span>
                         </div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon">🛒</div>
+                        <div class="stat-icon">📧</div>
                         <div class="stat-info">
-                            <h3 id="totalOrders">386</h3>
-                            <p>Total Orders</p>
-                            <span class="stat-trend up">+8.2% this month</span>
+                            <h3 id="totalEmails">0</h3>
+                            <p>Email Subscribers</p>
+                            <span class="stat-trend up" id="emailTrend">Growing daily</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🎟️</div>
+                        <div class="stat-info">
+                            <h3 id="totalCoupons">0</h3>
+                            <p>Coupons Given</p>
+                            <span class="stat-trend up">20% discount</span>
                         </div>
                     </div>
                     <div class="stat-card">
@@ -4585,14 +4920,6 @@
                             <h3 id="totalRevenue">₹4,89,230</h3>
                             <p>Total Revenue</p>
                             <span class="stat-trend up">+15.3% this month</span>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">⭐</div>
-                        <div class="stat-info">
-                            <h3 id="avgRating">4.8</h3>
-                            <p>Average Rating</p>
-                            <span class="stat-trend up">+0.3 this month</span>
                         </div>
                     </div>
                 </div>
@@ -4642,6 +4969,18 @@
                                 <span class="product-name">Industrial Parts</span>
                                 <span class="product-sales">25 sales</span>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Email Subscribers List -->
+                <div class="dashboard-card">
+                    <h3>📧 Email Subscribers <span style="font-size: 0.9rem; color: var(--text-secondary); font-weight: normal;">(Real-time)</span></h3>
+                    <div id="emailSubscribersList" class="email-subscribers-list">
+                        <div class="no-data">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
+                            <p>No subscribers yet</p>
+                            <small style="color: var(--text-secondary);">Email addresses will appear here in real-time</small>
                         </div>
                     </div>
                 </div>
@@ -6292,6 +6631,203 @@
                 });
             }
         });
+
+        // ===== VISITOR TRACKING & EMAIL CAPTURE =====
+        
+        // Initialize tracking data
+        function initializeTracking() {
+            if (!localStorage.getItem('taclab_visitors')) {
+                localStorage.setItem('taclab_visitors', JSON.stringify([]));
+            }
+            if (!localStorage.getItem('taclab_emails')) {
+                localStorage.setItem('taclab_emails', JSON.stringify([]));
+            }
+            if (!localStorage.getItem('taclab_visitor_count')) {
+                localStorage.setItem('taclab_visitor_count', '0');
+            }
+        }
+
+        // Track visitor
+        function trackVisitor() {
+            initializeTracking();
+            
+            const visitors = JSON.parse(localStorage.getItem('taclab_visitors') || '[]');
+            const visitorCount = parseInt(localStorage.getItem('taclab_visitor_count') || '0');
+            
+            const newVisitor = {
+                timestamp: new Date().toISOString(),
+                date: new Date().toLocaleString(),
+                id: 'V' + (visitorCount + 1)
+            };
+            
+            visitors.push(newVisitor);
+            localStorage.setItem('taclab_visitors', JSON.stringify(visitors));
+            localStorage.setItem('taclab_visitor_count', (visitorCount + 1).toString());
+            
+            // Update dashboard if open
+            updateDashboardStats();
+        }
+
+        // Show welcome popup on first visit
+        function checkFirstVisit() {
+            const hasVisited = localStorage.getItem('taclab_visited');
+            const hasProvidedEmail = localStorage.getItem('taclab_user_email');
+            
+            if (!hasVisited) {
+                // Wait for splash screen to finish (3 seconds)
+                setTimeout(() => {
+                    document.getElementById('welcomePopup').style.display = 'flex';
+                }, 3500);
+            }
+            
+            // Track this visit
+            trackVisitor();
+        }
+
+        // Close welcome popup
+        function closeWelcomePopup(provided) {
+            document.getElementById('welcomePopup').style.display = 'none';
+            localStorage.setItem('taclab_visited', 'true');
+            
+            if (!provided) {
+                // User skipped - that's fine, we still tracked the visit
+                console.log('User skipped email signup');
+            }
+        }
+
+        // Submit email and generate coupon
+        function submitEmail(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('visitorEmail').value;
+            
+            if (!email) {
+                alert('Please enter a valid email address');
+                return false;
+            }
+            
+            // Save email to localStorage
+            const emails = JSON.parse(localStorage.getItem('taclab_emails') || '[]');
+            const couponCode = 'WELCOME20' + Math.random().toString(36).substr(2, 4).toUpperCase();
+            
+            const emailData = {
+                email: email,
+                timestamp: new Date().toISOString(),
+                date: new Date().toLocaleString(),
+                couponCode: couponCode,
+                used: false
+            };
+            
+            emails.push(emailData);
+            localStorage.setItem('taclab_emails', JSON.stringify(emails));
+            localStorage.setItem('taclab_user_email', email);
+            localStorage.setItem('taclab_user_coupon', couponCode);
+            
+            // Close welcome popup
+            closeWelcomePopup(true);
+            
+            // Show coupon modal
+            document.getElementById('couponCodeDisplay').textContent = couponCode;
+            document.getElementById('couponModal').style.display = 'flex';
+            
+            // Update dashboard
+            updateDashboardStats();
+            
+            // Confetti animation
+            createEmojiRain('🎉');
+            
+            return false;
+        }
+
+        // Close coupon modal
+        function closeCouponModal() {
+            document.getElementById('couponModal').style.display = 'none';
+        }
+
+        // Copy coupon code
+        function copyCouponCode() {
+            const couponCode = document.getElementById('couponCodeDisplay').textContent;
+            
+            // Create temporary textarea for copying
+            const textarea = document.createElement('textarea');
+            textarea.value = couponCode;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            
+            // Show feedback
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '✅ Copied!';
+            btn.style.background = '#4cd137';
+            
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.style.background = '';
+            }, 2000);
+        }
+
+        // Update dashboard stats in real-time
+        function updateDashboardStats() {
+            const visitorCount = parseInt(localStorage.getItem('taclab_visitor_count') || '0');
+            const emails = JSON.parse(localStorage.getItem('taclab_emails') || '[]');
+            
+            // Update stats
+            document.getElementById('totalVisitors').textContent = visitorCount.toLocaleString();
+            document.getElementById('totalEmails').textContent = emails.length.toLocaleString();
+            document.getElementById('totalCoupons').textContent = emails.length.toLocaleString();
+            
+            // Update email list
+            updateEmailList();
+        }
+
+        // Update email subscribers list in dashboard
+        function updateEmailList() {
+            const emails = JSON.parse(localStorage.getItem('taclab_emails') || '[]');
+            const emailListContainer = document.getElementById('emailSubscribersList');
+            
+            if (emails.length === 0) {
+                emailListContainer.innerHTML = `
+                    <div class="no-data">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
+                        <p>No subscribers yet</p>
+                        <small style="color: var(--text-secondary);">Email addresses will appear here in real-time</small>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Sort by most recent first
+            emails.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            
+            emailListContainer.innerHTML = emails.map(item => `
+                <div class="email-item">
+                    <div class="email-info">
+                        <div class="email-address">📧 ${item.email}</div>
+                        <div class="email-date">🕒 ${item.date}</div>
+                    </div>
+                    <div class="email-coupon-badge">
+                        🎟️ ${item.couponCode}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTracking();
+            checkFirstVisit();
+            updateDashboardStats();
+        });
+
+        // Auto-refresh dashboard stats every 5 seconds when dashboard is open
+        setInterval(() => {
+            const dashboardContent = document.getElementById('dashboardContent');
+            if (dashboardContent && dashboardContent.style.display !== 'none') {
+                updateDashboardStats();
+            }
+        }, 5000);
 
         console.log('🚀 TACLAB - All features loaded!');
         console.log('📱 Mobile responsive design active!');
