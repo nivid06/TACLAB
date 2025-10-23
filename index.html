@@ -1226,18 +1226,18 @@
         .social-icon {
             width: 55px;
             height: 55px;
-            background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            background: var(--card-bg);
             backdrop-filter: blur(10px);
             border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: var(--text);
             transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255,255,255,0.1);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(108, 92, 231, 0.1);
+            border: 2px solid rgba(108, 92, 231, 0.3);
             position: relative;
             overflow: hidden;
         }
@@ -1272,6 +1272,7 @@
                 0 15px 40px rgba(0, 0, 0, 0.4),
                 0 0 20px rgba(108, 92, 231, 0.5),
                 inset 0 1px 0 rgba(255,255,255,0.2);
+            color: white;
         }
 
         /* Individual platform colors */
@@ -1391,6 +1392,7 @@
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             transform: translateY(-3px) rotate(5deg);
             box-shadow: 0 5px 20px rgba(108, 92, 231, 0.4);
+            color: white;
         }
 
         .footer-links,
@@ -1725,6 +1727,7 @@
             background: linear-gradient(135deg, #f09433, #bc1888);
             transform: scale(1.05);
             box-shadow: 0 5px 25px rgba(188, 24, 136, 0.4);
+            color: white;
         }
 
         .instagram-grid {
@@ -3617,7 +3620,7 @@
                 <div class="mega-menu-column">
                     <h4>🔧 Tools & Resources</h4>
                     <ul class="mega-menu-links">
-                        <li><a href="#calculator" onclick="toggleMainMenu()">
+                        <li><a href="javascript:void(0)" onclick="showSection('calculator')">
                             <span class="link-icon">🧮</span>
                             <div>
                                 <strong>Cost Calculator</strong>
@@ -3691,7 +3694,7 @@
                 From concept to creation, we bring your ideas to life with cutting-edge 3D printing technology.
             </p>
             <div class="hero-buttons">
-                <a href="#calculator" class="btn btn-primary">Get Started</a>
+                <a href="javascript:void(0)" onclick="showSection('calculator')" class="btn btn-primary">Get Started</a>
                 <a href="#features" class="btn btn-secondary">Learn More</a>
             </div>
         </div>
@@ -3737,8 +3740,13 @@
     </section>
 
     <!-- Calculator Section -->
-    <section class="calculator" id="calculator">
+    <section class="calculator page-section" id="calculator" style="display: none;">
         <div class="container">
+            <div style="margin-bottom: 1rem;">
+                <button onclick="showSection('home')" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                    ← Back to Home
+                </button>
+            </div>
             <h2 class="section-title">🧮 Cost Calculator & Quote Request</h2>
             
             <!-- Tab Selector -->
@@ -5426,6 +5434,33 @@
         updateComparison();
         updateCart();
 
+        // ===== PAGE NAVIGATION =====
+        function showSection(sectionId) {
+            // Hide calculator section
+            const calculatorSection = document.getElementById('calculator');
+            if (calculatorSection) {
+                calculatorSection.style.display = 'none';
+            }
+
+            // Show requested section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                if (sectionId === 'calculator') {
+                    targetSection.style.display = 'block';
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    calculatorSection.style.display = 'none';
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+
+            // Close mega menu if open
+            const megaMenu = document.getElementById('megaMenu');
+            if (megaMenu && megaMenu.classList.contains('active')) {
+                toggleMainMenu();
+            }
+        }
+
         console.log('🚀 TACLAB - All features loaded!');
         console.log('📱 Mobile responsive design active!');
         console.log('📋 Quote form system active!');
@@ -5541,7 +5576,7 @@
                 <ul class="footer-links">
                     <li><a href="#home">Home</a></li>
                     <li><a href="#products">Products</a></li>
-                    <li><a href="#calculator">Calculator</a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('calculator')">Calculator</a></li>
                     <li><a href="#custom-order">Quick Order</a></li>
                 </ul>
             </div>
@@ -5552,7 +5587,7 @@
                     <li><a href="#products">3D Printing</a></li>
                     <li><a href="#products">Prototyping</a></li>
                     <li><a href="#products">Custom Parts</a></li>
-                    <li><a href="#calculator">Get Quote</a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('calculator')">Get Quote</a></li>
                 </ul>
             </div>
 
