@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Tac Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+        <span class="theme-icon">🌙</span>
+    </button>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <img src="logo.png" alt="taclab" class="logo-image">
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="listing.html">Services</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="calculator.html">Calculator</a></li>
+                <li><a href="login.html" class="active">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Login Section -->
+    <section class="login-section">
+        <div class="login-container">
+            <!-- Animated Background Elements -->
+            <div class="login-bg-shapes">
+                <div class="shape shape-1">🎨</div>
+                <div class="shape shape-2">🚀</div>
+                <div class="shape shape-3">🔧</div>
+                <div class="shape shape-4">💡</div>
+                <div class="shape shape-5">⚡</div>
+            </div>
+
+            <div class="login-box">
+                <div class="login-header">
+                    <div class="login-icon">🔐</div>
+                    <h1>Welcome Back!</h1>
+                    <p>Login to access your 3D printing dashboard</p>
+                </div>
+
+                <div class="login-tabs">
+                    <button class="tab-btn active" onclick="switchTab('login')">Login</button>
+                    <button class="tab-btn" onclick="switchTab('signup')">Sign Up</button>
+                </div>
+
+                <!-- Login Form -->
+                <form id="loginForm" class="auth-form active">
+                    <div class="form-group">
+                        <label for="loginEmail">
+                            <span class="label-icon">📧</span>
+                            Email Address
+                        </label>
+                        <input type="email" id="loginEmail" placeholder="your@email.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginPassword">
+                            <span class="label-icon">🔑</span>
+                            Password
+                        </label>
+                        <div class="password-input">
+                            <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('loginPassword')">
+                                👁️
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="rememberMe">
+                            <span>Remember me</span>
+                        </label>
+                        <a href="#" class="forgot-link">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary login-btn">
+                        🚀 Login to Dashboard
+                    </button>
+
+                    <div class="social-login">
+                        <p class="divider"><span>Or continue with</span></p>
+                        <div class="social-buttons">
+                            <button type="button" class="social-btn google-btn">
+                                <span class="social-icon">🔴</span>
+                                Google
+                            </button>
+                            <button type="button" class="social-btn github-btn">
+                                <span class="social-icon">⚫</span>
+                                GitHub
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Signup Form -->
+                <form id="signupForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="signupName">
+                            <span class="label-icon">👤</span>
+                            Full Name
+                        </label>
+                        <input type="text" id="signupName" placeholder="John Doe" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signupEmail">
+                            <span class="label-icon">📧</span>
+                            Email Address
+                        </label>
+                        <input type="email" id="signupEmail" placeholder="your@email.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signupPassword">
+                            <span class="label-icon">🔑</span>
+                            Password
+                        </label>
+                        <div class="password-input">
+                            <input type="password" id="signupPassword" placeholder="Create a password" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('signupPassword')">
+                                👁️
+                            </button>
+                        </div>
+                        <div class="password-strength" id="passwordStrength"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">
+                            <span class="label-icon">🔒</span>
+                            Confirm Password
+                        </label>
+                        <div class="password-input">
+                            <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+                        </div>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="agreeTerms" required>
+                            <span>I agree to the <a href="#">Terms & Conditions</a></span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary login-btn">
+                        ✨ Create Account
+                    </button>
+
+                    <div class="social-login">
+                        <p class="divider"><span>Or sign up with</span></p>
+                        <div class="social-buttons">
+                            <button type="button" class="social-btn google-btn">
+                                <span class="social-icon">🔴</span>
+                                Google
+                            </button>
+                            <button type="button" class="social-btn github-btn">
+                                <span class="social-icon">⚫</span>
+                                GitHub
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Features Sidebar -->
+            <div class="features-sidebar">
+                <h2>Why Join Tac Lab?</h2>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-icon">🚀</div>
+                        <div class="feature-content">
+                            <h3>Fast Turnaround</h3>
+                            <p>Get your prints in record time</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">💰</div>
+                        <div class="feature-content">
+                            <h3>Best Prices</h3>
+                            <p>Transparent pricing, no hidden fees</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">📊</div>
+                        <div class="feature-content">
+                            <h3>Track Orders</h3>
+                            <p>Real-time order tracking dashboard</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🎨</div>
+                        <div class="feature-content">
+                            <h3>50+ Materials</h3>
+                            <p>Choose from a wide variety</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Bar -->
+    <section class="stats-bar">
+        <div class="container">
+            <div class="stats-inline">
+                <div class="stat-inline-item">
+                    <span class="stat-icon">👥</span>
+                    <strong>5000+</strong> Happy Customers
+                </div>
+                <div class="stat-inline-item">
+                    <span class="stat-icon">🖨️</span>
+                    <strong>10,000+</strong> Prints Completed
+                </div>
+                <div class="stat-inline-item">
+                    <span class="stat-icon">⭐</span>
+                    <strong>4.9/5</strong> Average Rating
+                </div>
+                <div class="stat-inline-item">
+                    <span class="stat-icon">🌍</span>
+                    <strong>50+</strong> Countries Served
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Tac Lab</h4>
+                    <p>Turning imagination into reality.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="listing.html">Services</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="calculator.html">Calculator</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Email: hello@taclab.com</p>
+                    <p>Phone: (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Copyright &copy; 2025 Tac Lab - All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="theme.js"></script>
+    <script src="login.js"></script>
+</body>
+</html>
+

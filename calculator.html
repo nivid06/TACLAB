@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cost Calculator - Tac Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="calculator.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <img src="logo.png" alt="taclab" class="logo-image">
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="listing.html">Services</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="calculator.html" class="active">Calculator</a></li>
+                <li><a href="index.html#contact" class="btn-contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Calculator Hero -->
+    <section class="page-header calculator-header">
+        <div class="container">
+            <h1>💰 3D Print Cost Calculator</h1>
+            <p>Get an instant estimate for your 3D printing project</p>
+        </div>
+    </section>
+
+    <!-- Calculator Section -->
+    <section class="calculator-section">
+        <div class="container">
+            <div class="calculator-grid">
+                <!-- Input Panel -->
+                <div class="calculator-panel">
+                    <div class="panel-header">
+                        <h2>📐 Project Details</h2>
+                        <p>Enter your print specifications</p>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="printVolume">
+                            <span class="label-icon">📦</span>
+                            Print Volume (cm³)
+                        </label>
+                        <input type="number" id="printVolume" value="100" min="1" step="1">
+                        <div class="input-hint">Volume of your 3D model</div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="infillPercent">
+                            <span class="label-icon">🔲</span>
+                            Infill Percentage (%)
+                        </label>
+                        <input type="range" id="infillPercent" value="20" min="0" max="100" step="5">
+                        <div class="range-value"><span id="infillValue">20</span>%</div>
+                        <div class="input-hint">Higher infill = stronger but more material</div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="filamentType">
+                            <span class="label-icon">🎨</span>
+                            Filament Type
+                        </label>
+                        <select id="filamentType">
+                            <option value="pla" data-price="20">PLA - $20/kg (Standard)</option>
+                            <option value="abs" data-price="25">ABS - $25/kg (Durable)</option>
+                            <option value="petg" data-price="30">PETG - $30/kg (Strong)</option>
+                            <option value="tpu" data-price="40">TPU - $40/kg (Flexible)</option>
+                            <option value="nylon" data-price="45">Nylon - $45/kg (Industrial)</option>
+                            <option value="wood" data-price="35">Wood Fill - $35/kg (Aesthetic)</option>
+                            <option value="metal" data-price="50">Metal Fill - $50/kg (Premium)</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="printTime">
+                            <span class="label-icon">⏱️</span>
+                            Estimated Print Time (hours)
+                        </label>
+                        <input type="number" id="printTime" value="5" min="0.5" step="0.5">
+                        <div class="input-hint">Approximate time to complete print</div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="supportMaterial">
+                            <span class="label-icon">🏗️</span>
+                            Support Material Required
+                        </label>
+                        <select id="supportMaterial">
+                            <option value="0">None</option>
+                            <option value="10">Light (10%)</option>
+                            <option value="20">Medium (20%)</option>
+                            <option value="30">Heavy (30%)</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="quantity">
+                            <span class="label-icon">🔢</span>
+                            Quantity
+                        </label>
+                        <input type="number" id="quantity" value="1" min="1" step="1">
+                    </div>
+
+                    <button class="btn btn-primary calculate-btn" onclick="calculateCost()">
+                        🧮 Calculate Cost
+                    </button>
+                </div>
+
+                <!-- Results Panel -->
+                <div class="results-panel">
+                    <div class="panel-header">
+                        <h2>📊 Cost Breakdown</h2>
+                        <p>Your project estimate</p>
+                    </div>
+
+                    <div class="cost-display" id="costDisplay">
+                        <div class="total-cost">
+                            <span class="cost-label">Total Cost</span>
+                            <span class="cost-amount" id="totalCost">$0.00</span>
+                        </div>
+                        
+                        <div class="cost-animation">
+                            <div class="printer-icon">🖨️</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progressFill"></div>
+                            </div>
+                        </div>
+
+                        <div class="breakdown-list" id="breakdownList">
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">💰 Material Cost</span>
+                                <span class="breakdown-value" id="materialCost">$0.00</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">⚡ Machine Time</span>
+                                <span class="breakdown-value" id="machineCost">$0.00</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">👨‍💼 Labor Cost</span>
+                                <span class="breakdown-value" id="laborCost">$0.00</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">🏗️ Support Material</span>
+                                <span class="breakdown-value" id="supportCost">$0.00</span>
+                            </div>
+                            <div class="breakdown-item highlight">
+                                <span class="breakdown-label">📦 Per Unit Cost</span>
+                                <span class="breakdown-value" id="perUnitCost">$0.00</span>
+                            </div>
+                        </div>
+
+                        <div class="savings-badge" id="savingsBadge" style="display: none;">
+                            <span class="badge-icon">💰</span>
+                            <div class="badge-content">
+                                <strong>Bulk Discount Applied!</strong>
+                                <p>You're saving <span id="savingsAmount">$0</span> on this order</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-secondary" onclick="window.location.href='listing.html'">
+                        🚀 Start Your Project
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filament Comparison Section -->
+    <section class="comparison-section">
+        <div class="container">
+            <h2 class="section-title">🔬 Filament Comparison Tool</h2>
+            <p class="section-subtitle">Compare different filament types to find the perfect match for your project</p>
+
+            <div class="comparison-selector">
+                <div class="selector-group">
+                    <label>Select First Filament:</label>
+                    <select id="compare1" onchange="updateComparison()">
+                        <option value="pla">PLA</option>
+                        <option value="abs">ABS</option>
+                        <option value="petg">PETG</option>
+                        <option value="tpu">TPU</option>
+                        <option value="nylon">Nylon</option>
+                        <option value="wood">Wood Fill</option>
+                        <option value="metal">Metal Fill</option>
+                    </select>
+                </div>
+
+                <div class="vs-icon">VS</div>
+
+                <div class="selector-group">
+                    <label>Select Second Filament:</label>
+                    <select id="compare2" onchange="updateComparison()">
+                        <option value="pla">PLA</option>
+                        <option value="abs" selected>ABS</option>
+                        <option value="petg">PETG</option>
+                        <option value="tpu">TPU</option>
+                        <option value="nylon">Nylon</option>
+                        <option value="wood">Wood Fill</option>
+                        <option value="metal">Metal Fill</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="comparison-grid" id="comparisonGrid">
+                <!-- Filament 1 Card -->
+                <div class="comparison-card" id="card1">
+                    <div class="comparison-header">
+                        <h3 id="name1">PLA</h3>
+                        <div class="price-tag" id="price1">$20/kg</div>
+                    </div>
+                    <div class="comparison-stats">
+                        <div class="stat-bar">
+                            <label>Strength</label>
+                            <div class="bar-container">
+                                <div class="bar-fill" id="strength1" style="width: 70%"></div>
+                            </div>
+                            <span class="stat-value">70%</span>
+                        </div>
+                        <div class="stat-bar">
+                            <label>Flexibility</label>
+                            <div class="bar-container">
+                                <div class="bar-fill" id="flexibility1" style="width: 40%"></div>
+                            </div>
+                            <span class="stat-value">40%</span>
+                        </div>
+                        <div class="stat-bar">
+                            <label>Ease of Print</label>
+                            <div class="bar-container">
+                                <div class="bar-fill" id="ease1" style="width: 95%"></div>
+                            </div>
+                            <span class="stat-value">95%</span>
+                        </div>
+                        <div class="stat-bar">
+                            <label>Heat Resistance</label>
+                            <div class="bar-container">
+                                <div class="bar-fill" id="heat1" style="width: 50%"></div>
+                            </div>
+                            <span class="stat-value">50%</span>
+                        </div>
+                    </div>
+                    <div class="comparison-features">
+                        <h4>Best For:</h4>
+                        <ul id="features1">
+                            <li>✓ Prototypes</li>
+                            <li>✓ General purpose</li>
+                            <li>✓ Decorative items</li>
+                            <li>✓ Beginners</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Filament 2 Card -->
+                <div class="comparison-card" id="card2">
+                    <div class="comparison-header">
+                        <h3 id="name2">ABS</h3>
+                        <div class="price-tag" id="price2">$25/kg</div>
+                    </div>
+                    <div class="comparison-stats">
+                        <div class="stat-bar">
+                            <label>Strength</label>
+                            <div class="bar-container">
+                                <div class="bar-fill" id="strength2" style="width: 85%"></div>
+                            </div>
+                            <span class="stat-value">85%</span>
+                        </div>
+                        <div class="stat-bar">
+                            <label>Flexibility</label>
+                            <div class="bar-container">
+                                <div class="bar-fill" id="flexibility2" style="width: 60%"></div>
+                            </div>
+                            <span class="stat-value">60%</span>
+                        </div>
+                        <div class="stat-bar">
+                            <label>Ease of Print</label>
+                            <div class="bar-container">
+                                <div class="bar-fill" id="ease2" style="width: 65%"></div>
+                            </div>
+                            <span class="stat-value">65%</span>
+                        </div>
+                        <div class="stat-bar">
+                            <label>Heat Resistance</label>
+                            <div class="bar-container">
+                                <div class="bar-fill" id="heat2" style="width: 80%"></div>
+                            </div>
+                            <span class="stat-value">80%</span>
+                        </div>
+                    </div>
+                    <div class="comparison-features">
+                        <h4>Best For:</h4>
+                        <ul id="features2">
+                            <li>✓ Functional parts</li>
+                            <li>✓ Heat resistance</li>
+                            <li>✓ Durable items</li>
+                            <li>✓ Automotive</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Winner Badge -->
+            <div class="winner-section" id="winnerSection">
+                <div class="winner-badge">
+                    <span class="trophy">🏆</span>
+                    <div class="winner-content">
+                        <h3>Best Value</h3>
+                        <p id="winnerText">PLA offers the best balance of price and ease of use</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tips Section -->
+    <section class="tips-section">
+        <div class="container">
+            <h2 class="section-title">💡 Pro Tips</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-icon">🎯</div>
+                    <h3>Optimize Infill</h3>
+                    <p>Use 20-30% infill for most projects. Only increase for parts needing high strength.</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-icon">📏</div>
+                    <h3>Scale Wisely</h3>
+                    <p>Larger prints use exponentially more material. Consider splitting large models into parts.</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-icon">💰</div>
+                    <h3>Bulk Savings</h3>
+                    <p>Order 5+ units to unlock bulk discounts. Save up to 20% on larger quantities!</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-icon">🌟</div>
+                    <h3>Material Selection</h3>
+                    <p>Choose based on purpose: PLA for prototypes, ABS for functional parts, TPU for flexible items.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Bring Your Design to Life?</h2>
+            <p>Get started with your 3D printing project today</p>
+            <a href="listing.html" class="btn btn-large">Explore Services</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Tac Lab</h4>
+                    <p>Turning imagination into reality.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="listing.html">Services</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="calculator.html">Calculator</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Email: hello@taclab.com</p>
+                    <p>Phone: (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Copyright &copy; 2025 Tac Lab - All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="calculator.js"></script>
+</body>
+</html>
+

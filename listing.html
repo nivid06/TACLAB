@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services - Tac Lab</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <img src="logo.png" alt="taclab" class="logo-image">
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="listing.html" class="active">Services</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="index.html#contact" class="btn-contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Our Services & Products</h1>
+            <p>From prototypes to production runs, we've got you covered</p>
+        </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="filter-section">
+        <div class="container">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All Services</button>
+                <button class="filter-btn" data-filter="prototyping">Prototyping</button>
+                <button class="filter-btn" data-filter="production">Production</button>
+                <button class="filter-btn" data-filter="custom">Custom Design</button>
+                <button class="filter-btn" data-filter="materials">Materials</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Grid -->
+    <section class="listings">
+        <div class="container">
+            <div class="listings-grid">
+                <!-- Service 1 -->
+                <div class="listing-card" data-category="prototyping">
+                    <div class="listing-badge">Popular</div>
+                    <div class="listing-image">
+                        <div class="image-placeholder prototype">
+                            <span class="placeholder-icon">🔬</span>
+                        </div>
+                    </div>
+                    <div class="listing-content">
+                        <h3>Rapid Prototyping</h3>
+                        <p>Transform your ideas into physical prototypes within 24-48 hours. Perfect for testing and iteration.</p>
+                        <div class="listing-features">
+                            <span class="feature-tag">✓ Fast Turnaround</span>
+                            <span class="feature-tag">✓ Multiple Materials</span>
+                            <span class="feature-tag">✓ Revisions Included</span>
+                        </div>
+                        <div class="listing-footer">
+                            <div class="price">Starting at <span>₹3,999</span></div>
+                            <button class="btn btn-small">Order Now</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="listing-card" data-category="custom">
+                    <div class="listing-badge new">New</div>
+                    <div class="listing-image">
+                        <div class="image-placeholder design">
+                            <span class="placeholder-icon">✏️</span>
+                        </div>
+                    </div>
+                    <div class="listing-content">
+                        <h3>Custom 3D Design</h3>
+                        <p>Don't have a 3D model? Our expert designers will create it for you from sketches or descriptions.</p>
+                        <div class="listing-features">
+                            <span class="feature-tag">✓ Professional Design</span>
+                            <span class="feature-tag">✓ Unlimited Revisions</span>
+                            <span class="feature-tag">✓ Source Files Included</span>
+                        </div>
+                        <div class="listing-footer">
+                            <div class="price">Starting at <span>₹16,499</span></div>
+                            <button class="btn btn-small">Get Quote</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="listing-card" data-category="production">
+                    <div class="listing-image">
+                        <div class="image-placeholder production">
+                            <span class="placeholder-icon">🏭</span>
+                        </div>
+                    </div>
+                    <div class="listing-content">
+                        <h3>Production Runs</h3>
+                        <p>Scale up with bulk orders. Get volume discounts on 100+ units with consistent quality guaranteed.</p>
+                        <div class="listing-features">
+                            <span class="feature-tag">✓ Volume Discounts</span>
+                            <span class="feature-tag">✓ Quality Control</span>
+                            <span class="feature-tag">✓ Dedicated Support</span>
+                        </div>
+                        <div class="listing-footer">
+                            <div class="price">Custom <span>Quote</span></div>
+                            <button class="btn btn-small">Contact Sales</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 4 -->
+                <div class="listing-card" data-category="materials">
+                    <div class="listing-image">
+                        <div class="image-placeholder materials">
+                            <span class="placeholder-icon">🌟</span>
+                        </div>
+                    </div>
+                    <div class="listing-content">
+                        <h3>Premium Materials</h3>
+                        <p>Choose from our extensive material library including flexible, metal-infused, and transparent options.</p>
+                        <div class="listing-features">
+                            <span class="feature-tag">✓ 50+ Materials</span>
+                            <span class="feature-tag">✓ Custom Colors</span>
+                            <span class="feature-tag">✓ Material Testing</span>
+                        </div>
+                        <div class="listing-footer">
+                            <div class="price">Various <span>Pricing</span></div>
+                            <button class="btn btn-small">View Materials</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 5 -->
+                <div class="listing-card" data-category="prototyping">
+                    <div class="listing-image">
+                        <div class="image-placeholder functional">
+                            <span class="placeholder-icon">⚙️</span>
+                        </div>
+                    </div>
+                    <div class="listing-content">
+                        <h3>Functional Prototypes</h3>
+                        <p>Get working prototypes with moving parts, snap-fits, and functional assemblies for real-world testing.</p>
+                        <div class="listing-features">
+                            <span class="feature-tag">✓ Engineering Grade</span>
+                            <span class="feature-tag">✓ Assembly Service</span>
+                            <span class="feature-tag">✓ Testing Support</span>
+                        </div>
+                        <div class="listing-footer">
+                            <div class="price">Starting at <span>₹7,399</span></div>
+                            <button class="btn btn-small">Start Project</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 6 -->
+                <div class="listing-card" data-category="custom">
+                    <div class="listing-badge">Popular</div>
+                    <div class="listing-image">
+                        <div class="image-placeholder art">
+                            <span class="placeholder-icon">🎨</span>
+                        </div>
+                    </div>
+                    <div class="listing-content">
+                        <h3>Artistic Prints</h3>
+                        <p>Create stunning sculptures, figurines, and decorative pieces with ultra-high resolution printing.</p>
+                        <div class="listing-features">
+                            <span class="feature-tag">✓ Fine Details</span>
+                            <span class="feature-tag">✓ Hand Finishing</span>
+                            <span class="feature-tag">✓ Custom Painting</span>
+                        </div>
+                        <div class="listing-footer">
+                            <div class="price">Starting at <span>₹6,499</span></div>
+                            <button class="btn btn-small">Create Art</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 7 -->
+                <div class="listing-card" data-category="production">
+                    <div class="listing-image">
+                        <div class="image-placeholder industrial">
+                            <span class="placeholder-icon">🔩</span>
+                        </div>
+                    </div>
+                    <div class="listing-content">
+                        <h3>Industrial Parts</h3>
+                        <p>Replacement parts, jigs, fixtures, and tooling printed in engineering-grade materials.</p>
+                        <div class="listing-features">
+                            <span class="feature-tag">✓ High Strength</span>
+                            <span class="feature-tag">✓ Precision Fit</span>
+                            <span class="feature-tag">✓ Technical Support</span>
+                        </div>
+                        <div class="listing-footer">
+                            <div class="price">Starting at <span>₹4,899</span></div>
+                            <button class="btn btn-small">Order Parts</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 8 -->
+                <div class="listing-card" data-category="custom">
+                    <div class="listing-badge new">New</div>
+                    <div class="listing-image">
+                        <div class="image-placeholder jewelry">
+                            <span class="placeholder-icon">💍</span>
+                        </div>
+                    </div>
+                    <div class="listing-content">
+                        <h3>Jewelry & Wearables</h3>
+                        <p>Delicate and detailed prints for jewelry, fashion accessories, and wearable tech prototypes.</p>
+                        <div class="listing-features">
+                            <span class="feature-tag">✓ Micro Details</span>
+                            <span class="feature-tag">✓ Precious Metals</span>
+                            <span class="feature-tag">✓ Polished Finish</span>
+                        </div>
+                        <div class="listing-footer">
+                            <div class="price">Starting at <span>₹3,249</span></div>
+                            <button class="btn btn-small">Design Piece</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 9 -->
+                <div class="listing-card" data-category="materials">
+                    <div class="listing-image">
+                        <div class="image-placeholder eco">
+                            <span class="placeholder-icon">🌱</span>
+                        </div>
+                    </div>
+                    <div class="listing-content">
+                        <h3>Eco-Friendly Printing</h3>
+                        <p>Sustainable, biodegradable materials made from plant-based sources. Great for the planet.</p>
+                        <div class="listing-features">
+                            <span class="feature-tag">✓ Biodegradable</span>
+                            <span class="feature-tag">✓ Renewable Sources</span>
+                            <span class="feature-tag">✓ Carbon Neutral</span>
+                        </div>
+                        <div class="listing-footer">
+                            <div class="price">Starting at <span>₹3,749</span></div>
+                            <button class="btn btn-small">Go Green</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Special Offers Section -->
+    <section class="special-offers">
+        <div class="container">
+            <h2 class="section-title">Special Offers</h2>
+            <div class="offers-grid">
+                <div class="offer-card">
+                    <div class="offer-icon">🎁</div>
+                    <h3>First Order Special</h3>
+                    <p>Get 25% off your first print</p>
+                    <code class="promo-code">FIRST25</code>
+                </div>
+                <div class="offer-card">
+                    <div class="offer-icon">📦</div>
+                    <h3>Bulk Discount</h3>
+                    <p>Save up to 40% on 100+ units</p>
+                    <button class="btn btn-small">Get Quote</button>
+                </div>
+                <div class="offer-card">
+                    <div class="offer-icon">🚀</div>
+                    <h3>Express Service</h3>
+                    <p>Next-day delivery available</p>
+                    <button class="btn btn-small">Rush Order</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Tac Lab</h4>
+                    <p>Turning imagination into reality.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="listing.html">Services</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Email: hello@taclab.com</p>
+                    <p>Phone: (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Copyright &copy; 2025 Tac Lab - All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
