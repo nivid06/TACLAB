@@ -2661,7 +2661,7 @@
                                 </div>
                                 <div class="form-field">
                                     <label>Country *</label>
-                                    <select id="checkoutCountry" required>
+                                    <select id="checkoutCountry" required onchange="updateCurrencyFromCountry()">
                                         <option value="">Select Country</option>
                                         <option value="in">India</option>
                                         <option value="us">United States</option>
@@ -3960,6 +3960,91 @@
             }
         });
 
+        // ===== CURRENCY SYSTEM =====
+        const currencyConfig = {
+            in: { symbol: '₹', rate: 83, name: 'INR' },
+            us: { symbol: '$', rate: 1, name: 'USD' },
+            ca: { symbol: 'C$', rate: 1.35, name: 'CAD' },
+            uk: { symbol: '£', rate: 0.79, name: 'GBP' },
+            au: { symbol: 'A$', rate: 1.52, name: 'AUD' },
+            de: { symbol: '€', rate: 0.92, name: 'EUR' },
+            fr: { symbol: '€', rate: 0.92, name: 'EUR' },
+            jp: { symbol: '¥', rate: 149, name: 'JPY' },
+            other: { symbol: '$', rate: 1, name: 'USD' }
+        };
+
+        let currentCurrency = { symbol: '₹', rate: 83, name: 'INR' }; // Default to India
+
+        // Auto-detect user location
+        function detectUserLocation() {
+            fetch('https://ipapi.co/json/')
+                .then(response => response.json())
+                .then(data => {
+                    const countryCode = data.country_code.toLowerCase();
+                    if (countryCode === 'in') {
+                        currentCurrency = currencyConfig.in;
+                    } else if (countryCode === 'us') {
+                        currentCurrency = currencyConfig.us;
+                    } else if (countryCode === 'gb') {
+                        currentCurrency = currencyConfig.uk;
+                    } else {
+                        currentCurrency = currencyConfig.other;
+                    }
+                    updateAllPrices();
+                })
+                .catch(() => {
+                    // Default to India if detection fails
+                    currentCurrency = currencyConfig.in;
+                    updateAllPrices();
+                });
+        }
+
+        // Format price with current currency
+        function formatPrice(basePrice) {
+            const convertedPrice = basePrice * currentCurrency.rate;
+            if (currentCurrency.name === 'JPY' || currentCurrency.name === 'INR') {
+                return currentCurrency.symbol + Math.round(convertedPrice).toLocaleString();
+            }
+            return currentCurrency.symbol + convertedPrice.toFixed(2);
+        }
+
+        // Update all prices on the page
+        function updateAllPrices() {
+            // Update calculator prices
+            document.getElementById('totalCost').textContent = formatPrice(0);
+            document.getElementById('materialCost').textContent = formatPrice(0);
+            document.getElementById('machineCost').textContent = formatPrice(0);
+            document.getElementById('laborCost').textContent = formatPrice(0);
+            document.getElementById('perUnit').textContent = formatPrice(0);
+            document.getElementById('savingsAmount').textContent = formatPrice(0);
+            
+            // Update cart total
+            document.getElementById('cartTotal').textContent = formatPrice(0);
+            
+            // Update checkout totals
+            document.getElementById('checkoutSubtotal').textContent = formatPrice(0);
+            document.getElementById('checkoutShipping').textContent = formatPrice(5.99);
+            document.getElementById('checkoutTax').textContent = formatPrice(0);
+            document.getElementById('checkoutTotal').textContent = formatPrice(0);
+        }
+
+        // Change currency based on country selection
+        function updateCurrencyFromCountry() {
+            const countrySelect = document.getElementById('checkoutCountry');
+            if (countrySelect && countrySelect.value) {
+                const selectedCountry = countrySelect.value;
+                if (currencyConfig[selectedCountry]) {
+                    currentCurrency = currencyConfig[selectedCountry];
+                    updateAllPrices();
+                    updateCart();
+                    updateCheckoutTotal();
+                }
+            }
+        }
+
+        // Initialize on page load
+        detectUserLocation();
+
         // ===== EMOJI RAIN EFFECT =====
         function createEmojiRain(emoji) {
             for (let i = 0; i < 15; i++) {
@@ -4139,18 +4224,18 @@
                         <p>Your cart is empty</p>
                     </div>
                 `;
-                cartTotal.textContent = '$0.00';
+                cartTotal.textContent = formatPrice(0);
                 return;
             }
 
             const total = cart.reduce((sum, item) => sum + item.price, 0);
-            cartTotal.textContent = '$' + total.toFixed(2);
+            cartTotal.textContent = formatPrice(total);
 
             cartItems.innerHTML = cart.map(item => `
                 <div class="cart-item">
                     <div class="cart-item-info">
                         <h4>${item.name}</h4>
-                        <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+                        <div class="cart-item-price">${formatPrice(item.price)}</div>
                     </div>
                     <button class="remove-item" onclick="removeFromCart(${item.id})">×</button>
                 </div>
@@ -4201,10 +4286,10 @@
             const tax = subtotal * 0.10; // 10% tax
             const total = subtotal + shippingCost + tax;
 
-            document.getElementById('checkoutSubtotal').textContent = '$' + subtotal.toFixed(2);
-            document.getElementById('checkoutShipping').textContent = '$' + shippingCost.toFixed(2);
-            document.getElementById('checkoutTax').textContent = '$' + tax.toFixed(2);
-            document.getElementById('checkoutTotal').textContent = '$' + total.toFixed(2);
+            document.getElementById('checkoutSubtotal').textContent = formatPrice(subtotal);
+            document.getElementById('checkoutShipping').textContent = formatPrice(shippingCost);
+            document.getElementById('checkoutTax').textContent = formatPrice(tax);
+            document.getElementById('checkoutTotal').textContent = formatPrice(total);
         }
 
         function processCheckout() {
